@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal, Row, Col, Input, Footer, Navbar,NavItem } from 'react-materialize';
+import { Button, Icon, Modal, Row, Col, Input, Footer, Navbar, NavItem, Toast } from 'react-materialize';
+import $ from 'jquery';
 
 class App extends Component {
   constructor() {
@@ -43,24 +44,24 @@ class App extends Component {
   render() {
     if (this.state.isNew) {
       return (
-          <Basic title="Enter Account Info" onBackClick={this.handleClickBack}/>
+        <Basic title="Enter Account Info" onBackClick={this.handleClickBack} />
       );
     } else if (this.state.isEdit) {
       return (
-          <Basic title="Edit Account Info" onBackClick={this.handleClickBack}/>
+        <Basic title="Edit Account Info" onBackClick={this.handleClickBack} />
       );
 
     } else if (this.state.isDuplicate) {
       return (
-          <Basic title="Duplicate Account Info" onBackClick={this.handleClickBack}/>      
-        );
+        <Basic title="Duplicate Account Info" onBackClick={this.handleClickBack} />
+      );
     } else {
-      return ( 
-      <Landing
-        onNewClick={this.handleClickNew}
-        onEditClick={this.handleClickEdit}
-        onDuplicateClick={this.handleClickDuplicate}
-      />
+      return (
+        <Landing
+          onNewClick={this.handleClickNew}
+          onEditClick={this.handleClickEdit}
+          onDuplicateClick={this.handleClickDuplicate}
+        />
       );
     }
   }
@@ -94,141 +95,199 @@ class Landing extends Component {
 
 //Basic Info Page Component
 class Basic extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isClear: false
+    }
+    this.handleClearance = this.handleClearance.bind(this);
+  }
 
+  //Function to handle Clearance click and need further action for clearance
+  handleClearance() {
+    this.setState({ isClear: true });
+  }
   render() {
-    return (
-      <div className="container">
-        <Row>
-          <h3>{this.props.title}</h3>
-          <Modal
-            header='Import Data From Wrapper'
-            actions={
-              <section>
-                <Button className="btn-flat">Cancel</Button>
-                <Button className="btn-flat">Import</Button>
-              </section>
-            }
-            trigger={
-              <Button><Icon left>cloud_download</Icon>Import From Wrapper</Button>
-            }>
-            <p>Please click import on the right bottom to import data from wrappe or click cancel or anywhere else to close this.</p>
-          </Modal>
-        </Row>
-
-        <Row>
+    if (this.state.isClear) {
+      return <Triage />
+    }
+    else
+      return (
+        <div className="container">
           <Row>
-            <Input s={6} className="filled-in" name='group1' type='checkbox' value='General Liability' label='General Liability' />
-            <Input s={6} className="filled-in" name='group1' type='checkbox' value='Excess' label='Excess' />
-          </Row>
-
-          <Row>
-            <Input s={6} type="number" label="ImageRight Task ID" />
-            <Input s={6} type="number" label="File Number" />
-          </Row>
-
-          <Row>
-            <Input s={4} className="datepicker" name="on" label="Effective Date" type='date' onChange={function (e, value) { }} />
-            <Input s={4} className="datepicker" name="on" label="Expiration Date" type='date' onChange={function (e, value) { }} />
-            <Input s={4} className="datepicker" name="on" label="Receive Date" type='date' onChange={function (e, value) { }} />
-          </Row>
-
-          <Row>
-            <Input s={6} type="text" label="Insured Name" />
-            <Input s={6} type="text" label="Legal status" />
-          </Row>
-
-          <Row>
-            <Input s={6} type="text" label="Stree" />
-            <Input s={2} type="text" label="City" />
-            <Input s={2} type="text" label="State" />
-            <Input s={2} type="number" label="Zipcode" />
-          </Row>
-
-          <Row>
-            <Input s={6} type='select' label="Classification" defaultValue='0'>
-              <option value='0' disabled>Choose Classification</option>
-              <option value='1'>Option 2</option>
-              <option value='2'>Option 3</option>
-            </Input>
-            <Input s={4} type='select' label="Exposure Basis" defaultValue='0'>
-              <option value='0' disabled>Choose Exposure Basis</option>
-              <option value='1'>Option 2</option>
-              <option value='2'>Option 3</option>
-            </Input>
-            <Input s={2} type='select' label="Value" defaultValue='0'>
-              <option value='0' disabled>Choose Value</option>
-              <option value='1'>Option 2</option>
-              <option value='2'>Option 3</option>
-            </Input>
-          </Row>
-
-          <Row>
-            <Input s={6} type="text" label="Insured Name" />
-            <Input s={6} type="text" label="Legal Status" />
-          </Row>
-
-          <Row>
-            <Col s={6}>
-            <Button className="red accent-2" onClick={this.props.onBackClick}><Icon left>arrow_back</Icon>Go Back</Button>
-            </Col>
-            <Col s={6}>
+            <h3>{this.props.title}</h3>
             <Modal
-              header='Get Clearance'
+              header='Import Data From Wrapper'
               actions={
                 <section>
                   <Button className="btn-flat">Cancel</Button>
-                  <Button className="btn-flat">Confirm</Button>
+                  <Button className="btn-flat">Import</Button>
                 </section>
               }
               trigger={
-                <Button><Icon right>exit_to_app</Icon>Get Clearance</Button>
+                <Button><Icon left>cloud_download</Icon>Import From Wrapper</Button>
               }>
-              <p>Please confirm all the information entered are correct and proceed to get clearance.</p>
+              <p>Please click import on the right bottom to import data from wrappe or click cancel or anywhere else to close this.</p>
             </Modal>
-            </Col>
           </Row>
-        </Row>
-      </div >
-    );
+
+          <Row>
+            <Row>
+              <Input s={6} className="filled-in" name='group1' type='checkbox' value='General Liability' label='General Liability' />
+              <Input s={6} className="filled-in" name='group1' type='checkbox' value='Excess' label='Excess' />
+            </Row>
+
+            <Row>
+              <Input s={6} type="number" label="ImageRight Task ID" />
+              <Input s={6} type="number" label="File Number" />
+            </Row>
+
+            <Row>
+              <Input s={4} className="datepicker" name="on" label="Effective Date" type='date' onChange={function (e, value) { }} />
+              <Input s={4} className="datepicker" name="on" label="Expiration Date" type='date' onChange={function (e, value) { }} />
+              <Input s={4} className="datepicker" name="on" label="Receive Date" type='date' onChange={function (e, value) { }} />
+            </Row>
+
+            <Row>
+              <Input s={6} type="text" label="Insured Name" />
+              <Input s={6} type="text" label="Legal status" />
+            </Row>
+
+            <Row>
+              <Input s={6} type="text" label="Street" />
+              <Input s={2} type="text" label="City" />
+              <Input s={2} type="text" label="State" />
+              <Input s={2} type="number" label="Zipcode" />
+            </Row>
+
+            <Row>
+              <Input s={6} type='select' label="Classification" defaultValue='0'>
+                <option value='0' disabled>Choose Classification</option>
+                <option value='1'>60015</option>
+                <option value='2'>98820</option>
+              </Input>
+              <Input s={4} type='select' label="Exposure Basis" defaultValue='0'>
+                <option value='0' disabled>Choose Exposure Basis</option>
+                <option value='1'>Units</option>
+                <option value='2'>Gross Sales</option>
+              </Input>
+              <Input s={2} type='select' label="Value" defaultValue='0'>
+                <option value='0' disabled>Choose Value</option>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+              </Input>
+            </Row>
+
+            <Row>
+              <Input s={6} type="text" label="Insured Name" />
+              <Input s={6} type="text" label="Legal Status" />
+            </Row>
+
+            <Row>
+              <Col s={6}>
+                <Button className="red accent-2" onClick={this.props.onBackClick}><Icon left>arrow_back</Icon>Go Back</Button>
+              </Col>
+              <Col s={6}>
+                <Modal
+                  id="clearanceModal"
+                  header='Get Clearance'
+                  actions={
+                    <section>
+                      <Button className="modal-action modal-close btn-flat">Cancel</Button>
+                      <Button className="modal-action modal-close btn-flat" onClick={this.handleClearance}>Confirm</Button>
+                    </section>
+                  }
+                  trigger={
+                    <Button ><Icon right>exit_to_app</Icon>Get Clearance</Button>
+                  }>
+                  <p>Please confirm all the information entered are correct and proceed to get clearance. You can't undo this step!</p>
+                </Modal>
+              </Col>
+            </Row>
+          </Row>
+        </div >
+      );
   }
 }
 
 class Triage extends Component {
+constructor(){
+  super();
+  this.state={
+      isRiskRating: false,
+  }
+
+}
+handleRiskRating(){
+this.setState({isRiskRating:true});
+}
+
   render() {
     return (
-      <Row>
-        <h1>Triage</h1>
-      </Row>
+      <div className="container">
+        <h3>Triage Page</h3>
+        <Refer />
+        <Declination />
+        <RiskRating isEnter={this.state.isRiskRating} riskClick={this.handleRiskRating}/>
+      </div>
     );
   }
 }
 
-class DeclineModal extends Component {
+//TO-DO PASS PROPS AND AND MODAL
+class Declination extends Component {
   render() {
     return (
       <Row>
-        <h1>Declination Letter</h1>
-      </Row>
+          <Button s={4}>Send Declination Letter2</Button>
+        </Row>
     );
   }
 }
 
 class Refer extends Component {
+
+  //TO-DO CHANGE ALL HARDCODE DATA TO PROPS
+
   render() {
     return (
-      <Row>
-        <h1>Refer Letter</h1>
-      </Row>
+      <div className="container">
+        <Row>
+          <Modal
+            header='Refer Letter'
+            actions={
+              <section>
+                <Button className="modal-action modal-close btn-flat">Cancel</Button>
+                <Button className="modal-action modal-close btn-flat">Refer Now</Button>
+              </section>
+            }
+            trigger={
+              <Button s={4} ><Icon right>send</Icon>Refer</Button>
+            }>
+            <p>Please confirm all the information entered are correct and proceed to refer.</p>
+          </Modal>
+        </Row>
+        
+    
+      </div>
     );
   }
 }
 
 class RiskRating extends Component {
   render() {
+    if(this.props.isEnter){
+      return(
+        <Row><h3>Enter Risk and Rating Info</h3></Row>
+      );
+    }else
     return (
-      <Row>
-        <h1>RiskRating</h1>
-      </Row>
+        <Row>
+          <Button s={4} onClick={this.props.click}>Enter Risk and Rating Info</Button>
+        </Row>
     );
   }
 }
@@ -243,38 +302,38 @@ class Quote extends Component {
   }
 }
 
-class FixedNavBar extends Component{
-  render(){
-    return(
-      <Navbar brand='logo' right>
-      <NavItem href='get-started.html'>Getting started</NavItem>
-      <NavItem href='components.html'>Components</NavItem>
-    </Navbar>
+
+class FixedNavBar extends Component {
+  render() {
+    return (
+      <Navbar brand='Argo Group' right>
+        <NavItem href='#'>Help</NavItem>
+        <NavItem href='#'>My Account</NavItem>
+      </Navbar>
     );
   }
 }
-class FixedFooter extends Component{
-  render(){
-    return(
+class FixedFooter extends Component {
+  render() {
+    return (
       <Footer copyrights="&copy 2015 Copyright Text"
-      moreLinks={
-        <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
-      }
-      links={
-        <ul>
-          <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
-          <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
-          <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
-          <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
-        </ul>
-      }
-      className='example'
-    >
+        moreLinks={
+          <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
+        }
+        links={
+          <ul>
+            <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
+            <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
+            <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
+            <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
+          </ul>
+        }
+        className='example'
+      >
         <h5 className="white-text">Footer Content</h5>
         <p className="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-    </Footer>
+      </Footer>
     );
   }
 }
-
 export default App;

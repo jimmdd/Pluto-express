@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+// import './index.css';
+
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-// ReactDOM.render(<Landing />, document.getElementById('start'));
+// ReactDOM.render(<FixedNavBar />, document.getElementById('header'));
+ReactDOM.render(<App />, document.getElementById('content'));
+// ReactDOM.render(<FixedNavBar />, document.getElementById('footer'));
 
 
-registerServiceWorker();
+// registerServiceWorker();
+
