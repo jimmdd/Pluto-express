@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal, Row, Col, Input, Footer, Navbar, NavItem, Toast } from 'react-materialize';
-import $ from 'jquery';
+import { Button, Icon, Modal, Row, Col, Input, Footer, Navbar, NavItem,Card } from 'react-materialize';
+
 
 class App extends Component {
+  render() {
+    return (
+      <div>
+        <FixedNavBar />
+        <Card>
+          <Home />
+        </Card>
+        <FixedFooter />
+      </div>
+    );
+  }
+}
+class Home extends Component {
   constructor() {
     super()
     this.state = {
@@ -107,12 +120,14 @@ class Basic extends Component {
   handleClearance() {
     this.setState({ isClear: true });
   }
+
   render() {
     if (this.state.isClear) {
       return <Triage />
     }
     else
       return (
+        <main>
         <div className="container">
           <Row>
             <h3>{this.props.title}</h3>
@@ -120,8 +135,8 @@ class Basic extends Component {
               header='Import Data From Wrapper'
               actions={
                 <section>
-                  <Button className="btn-flat">Cancel</Button>
-                  <Button className="btn-flat">Import</Button>
+                  <Button className="btn-flat modal-action modal-close">Cancel</Button>
+                  <Button className="btn-flat modal-action modal-close">Import</Button>
                 </section>
               }
               trigger={
@@ -209,31 +224,39 @@ class Basic extends Component {
             </Row>
           </Row>
         </div >
+        </main>
       );
   }
 }
 
 class Triage extends Component {
-constructor(){
-  super();
-  this.state={
+  constructor() {
+    super();
+    this.state = {
       isRiskRating: false,
+    }
+    this.handleRiskRating = this.handleRiskRating.bind(this);
   }
 
-}
-handleRiskRating(){
-this.setState({isRiskRating:true});
-}
+  //handle enter riskrating info input form TO-DO implement input form in R&R
+  handleRiskRating() {
+    this.setState({ isRiskRating: true });
+    console.log("this is working");
+  }
 
   render() {
-    return (
-      <div className="container">
-        <h3>Triage Page</h3>
-        <Refer />
-        <Declination />
-        <RiskRating isEnter={this.state.isRiskRating} riskClick={this.handleRiskRating}/>
-      </div>
-    );
+    if (this.state.isRiskRating) {
+      return <RiskRating />;
+    } else {
+      return (
+        <div className="container">
+          <h3>Triage Page</h3>
+          <Refer />
+          <Declination />
+          <Button onClick={this.handleRiskRating}>Enter Risk and rating info </Button>
+        </div>
+      );
+    }
   }
 }
 
@@ -241,9 +264,25 @@ this.setState({isRiskRating:true});
 class Declination extends Component {
   render() {
     return (
-      <Row>
-          <Button s={4}>Send Declination Letter2</Button>
+      <div className="container">
+        <Row>
+          <Modal
+            header='Send Decination letter'
+            actions={
+              <section>
+                <Button className="modal-action modal-close btn-flat">Cancel</Button>
+                <Button className="modal-action modal-close btn-flat">Send Now</Button>
+              </section>
+            }
+            trigger={
+              <Button ><Icon right>send</Icon>Decline</Button>
+            }>
+            <p>Please review all the information entered are correct and proceed to decline.</p>
+          </Modal>
         </Row>
+
+
+      </div>
     );
   }
 }
@@ -265,29 +304,45 @@ class Refer extends Component {
               </section>
             }
             trigger={
-              <Button s={4} ><Icon right>send</Icon>Refer</Button>
+              <Button ><Icon right>send</Icon>Refer</Button>
             }>
             <p>Please confirm all the information entered are correct and proceed to refer.</p>
           </Modal>
         </Row>
-        
-    
+
+
       </div>
     );
   }
 }
 
 class RiskRating extends Component {
+  constructor() {
+    super();
+
+  }
+
+  //TO-DO
+  handleCalculate() {
+
+  }
   render() {
-    if(this.props.isEnter){
-      return(
-        <Row><h3>Enter Risk and Rating Info</h3></Row>
-      );
-    }else
     return (
+      <div className="container">
         <Row>
-          <Button s={4} onClick={this.props.click}>Enter Risk and Rating Info</Button>
+          <h3>Enter Risk and Rating Info</h3>
+          <h5>TO-DO FORM</h5>
         </Row>
+        <Row>
+          <Col s={6}>
+            <Button onClick={this.handleCalculate}> Calculate Premium</Button>
+          </Col>
+          <Col s={6}>
+
+            <Refer />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
@@ -306,7 +361,7 @@ class Quote extends Component {
 class FixedNavBar extends Component {
   render() {
     return (
-      <Navbar brand='Argo Group' right>
+      <Navbar className="blue-grey lighten-1" brand='---Pluto' right>
         <NavItem href='#'>Help</NavItem>
         <NavItem href='#'>My Account</NavItem>
       </Navbar>
@@ -328,7 +383,7 @@ class FixedFooter extends Component {
             <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
           </ul>
         }
-        className='example'
+        className='blue-grey lighten-1'
       >
         <h5 className="white-text">Footer Content</h5>
         <p className="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
