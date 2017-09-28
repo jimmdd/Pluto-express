@@ -1,18 +1,50 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal, Row, Col, Input, Footer, Navbar, NavItem,Card } from 'react-materialize';
+import { Button, Icon, Modal, Row, Col, Input, Navbar, NavItem, Card, SideNav,SideNavItem} from 'react-materialize';
 
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogin: false
+    }
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  //DEMO ONLY IMPLEMENT VALIDATE LATER
+  handleLogin() {
+    this.setState({ isLogin: true });
+  }
+  //DEMO ONLY TO-DO REACT-ROUTER
   render() {
-    return (
-      <div>
-        <FixedNavBar />
-        <Card>
-          <Home />
-        </Card>
-        <FixedFooter />
-      </div>
-    );
+    if (this.state.isLogin) {
+      return (
+        <div>
+          <FixedNavBar />
+          <main id="main-content">
+            <Row>
+              <Col m={12} s={12}>
+                <Card id="general-card">
+                  <Home />
+                </Card>
+              </Col>
+            </Row>
+          </main>
+          <FixedFooter />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <FixedNavBar />
+          <main id="main-content">
+            <Login handlelogin={this.handleLogin} />
+          </main>
+          <FixedFooter />
+        </div>
+      );
+    }
+
   }
 }
 class Home extends Component {
@@ -127,8 +159,8 @@ class Basic extends Component {
     }
     else
       return (
-        <main>
         <div className="container">
+
           <Row>
             <h3>{this.props.title}</h3>
             <Modal
@@ -224,7 +256,6 @@ class Basic extends Component {
             </Row>
           </Row>
         </div >
-        </main>
       );
   }
 }
@@ -326,6 +357,7 @@ class RiskRating extends Component {
   handleCalculate() {
 
   }
+
   render() {
     return (
       <div className="container">
@@ -347,6 +379,7 @@ class RiskRating extends Component {
   }
 }
 
+//TO-DO IMPLEMENT
 class Quote extends Component {
   render() {
     return (
@@ -357,37 +390,90 @@ class Quote extends Component {
   }
 }
 
-
+//TO-DO NAME LOGO AND NAVITEM
 class FixedNavBar extends Component {
   render() {
     return (
-      <Navbar className="blue-grey lighten-1" brand='---Pluto' right>
-        <NavItem href='#'>Help</NavItem>
-        <NavItem href='#'>My Account</NavItem>
-      </Navbar>
+      <header>
+        <Navbar className="blue-grey lighten-1" brand='Argo Express' right>
+          <NavItem href='#'>Help</NavItem>
+          <NavItem href='#'>My Account</NavItem>
+        </Navbar>
+      </header>
     );
   }
 }
+
+//NOT USING REACT-MATERIALIZE FOOT COMPONENT COZ 
 class FixedFooter extends Component {
   render() {
     return (
-      <Footer copyrights="&copy 2015 Copyright Text"
-        moreLinks={
-          <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
-        }
-        links={
-          <ul>
-            <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
-            <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
-            <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
-            <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
-          </ul>
-        }
-        className='blue-grey lighten-1'
+      <footer className="page-footer blue-grey lighten-1">
+        <div className="footer-copyright blue-grey lighten-1">
+          <div className="container">
+            Argo Group© 2017 Copyright
+          </div>
+        </div>
+      </footer>
+    );
+  }
+}
+
+//Fake Demo component TO-DO flex it
+class FixedSideNav extends Component{
+  render(){
+    return(
+      <SideNav
+      trigger={<Button>SIDE NAV DEMO</Button>}
+      options={{ closeOnClick: true }}
       >
-        <h5 className="white-text">Footer Content</h5>
-        <p className="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-      </Footer>
+      <SideNavItem userView
+        user={{
+          background: 'img/office.jpg',
+          image: 'img/yuna.jpg',
+          name: 'John Doe',
+          email: 'jdandturk@gmail.com'
+        }}
+      />
+      <SideNavItem href='#!icon' icon='cloud'>First Link With Icon</SideNavItem>
+      <SideNavItem href='#!second'>Second Link</SideNavItem>
+      <SideNavItem divider />
+      <SideNavItem subheader>Subheader</SideNavItem>
+      <SideNavItem waves href='#!third'>Third Link With Waves</SideNavItem>
+    </SideNav>
+     );
+     }
+  }
+
+//TO-DO WIRE WITH VALIDATION AND ADD CHANGEABLE LOGO  
+class Login extends Component {
+  render() {
+    return (
+      <div className="container" id="login">
+        <Row>
+          <Col className="offset-m2 offset-l3" m={8} l={6} s={12}>
+            <Card
+              actions={
+                [<a href='#'>Forgot Password</a>]}
+            >
+            <Row>
+              <div className="card-image">
+                <img src="./argo-group.jpg"/>
+                </div>
+              </Row>
+              <Row>
+                <Input s={12} type="text" label="Email" ><Icon left>email</Icon></Input>
+              </Row>
+              <Row>
+                <Input s={12} type="text" label="Password"><Icon left>vpn_key</Icon></Input>
+              </Row>
+              <Row>
+                <Button className="btn-large cyan" id="login-button" onClick={this.props.handlelogin}>Login</Button>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

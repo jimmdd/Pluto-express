@@ -11,22 +11,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-  <title>Welcome To Pluto</title>
+  <title>Welcome To Argo Express</title>
 
+  <!-- TO-DO PUT INTO SEPRATE CSS FILE -->
+  <style>
+
+    main {
+      min-height: 100vh;
+      flex-direction: column;
+
+    }
+   #login-button{
+      width: 100%;
+   }
+   #login .card-content{
+     padding-bottom:0px;
+   }
+   #login{
+     padding-top:5vh
+   }
+   #general-card{
+     padding-top:10px
+   }
+  </style>
 </head>
 
 <body>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
-    <!-- React header rednering part -->
-
-  <div id="header"></div>
-    <!-- React content rednering part -->
-  <div id="content"></div>
-      <!-- React footer rednering part -->
-      <div id="footer"></div>
-
+  <div id="root"></div>
 
 </body>
 
