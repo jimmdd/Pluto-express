@@ -1,52 +1,71 @@
 import React, { Component } from 'react';
-import { Button, Icon, Modal, Row, Col, Input, Navbar, NavItem, Card, SideNav,SideNavItem} from 'react-materialize';
-
+import { Button, Icon, Modal, Row, Col, Input, Navbar, NavItem, Card, Collection, CollectionItem, SideNav, SideNavItem } from 'react-materialize';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isLogin: false
-    }
-    this.handleLogin = this.handleLogin.bind(this);
-  }
-
-  //DEMO ONLY IMPLEMENT VALIDATE LATER
-  handleLogin() {
-    this.setState({ isLogin: true });
-  }
-  //DEMO ONLY TO-DO REACT-ROUTER
   render() {
-    if (this.state.isLogin) {
-      return (
-        <div>
+    return (
+      <Router>
+        <switch>
           <FixedNavBar />
-          <main id="main-content">
-            <Row>
-              <Col m={12} s={12}>
-                <Card id="general-card">
-                  <Home />
-                </Card>
-              </Col>
-            </Row>
-          </main>
+          <Route exact path='/' component={Login} />
+          <Route path='/login' component={Login} />
+          <Route path="/landing" component={Landing} />
           <FixedFooter />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <FixedNavBar />
-          <main id="main-content">
-            <Login handlelogin={this.handleLogin} />
-          </main>
-          <FixedFooter />
-        </div>
-      );
-    }
-
+        </switch>
+      </Router>
+    )
   }
 }
+
+// class App1 extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       isLogin: false
+//     }
+//     this.handleLogin = this.handleLogin.bind(this);
+//   }
+
+//   //DEMO ONLY IMPLEMENT VALIDATE LATER
+//   handleLogin(e) {
+//     e.preventDefault();
+//     this.setState({ isLogin: true });
+//   }
+//   //DEMO ONLY TO-DO REACT-ROUTER
+//   render() {
+//     if (this.state.isLogin) {
+//       return (
+//         <div>
+//           <FixedNavBar />
+//           <main id="main-content">
+//             <Row>
+//               <Home />
+//             </Row>
+//           </main>
+//           <FixedFooter />
+//         </div>
+//       );
+//     } else {
+//       return (
+//         <div>
+//           <FixedNavBar />
+//           <main id="main-content">
+//             <Login handlelogin={this.handleLogin} />
+//           </main>
+//           <FixedFooter />
+//         </div>
+//       );
+//     }
+
+//   }
+// }
 class Home extends Component {
   constructor() {
     super()
@@ -116,9 +135,101 @@ class Home extends Component {
 class Landing extends Component {
 
   render() {
+    const data = [{
+      user: 'Tanner Linsley',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 1051679324,
+      effDate: '10/02/2017',
+      preimum: 30000
+    },
+    {
+      user: 'Sam Polly',
+      insName: 'Auto',
+      status: 'Issued',
+      subNum: 23109231023,
+      effDate: '10/20/2017',
+      preimum: 530000
+    },
+    {
+      user: 'Laura Schewize',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 32434234,
+      effDate: '11/02/2017',
+      preimum: 20000
+    },
+    {
+      user: 'Anna Lee',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 32434234,
+      effDate: '11/02/2017',
+      preimum: 20000
+    },
+    {
+      user: 'Jean Doe',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 32434234,
+      effDate: '11/02/2017',
+      preimum: 20000
+    },
+    {
+      user: 'John Smith',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 32434234,
+      effDate: '11/02/2017',
+      preimum: 20000
+    },
+    {
+      user: 'Jeff Schewize',
+      insName: 'Auto',
+      status: 'Declined',
+      subNum: 32434234,
+      effDate: '11/02/2017',
+      preimum: 20000
+    },
+    {
+      user: 'John Doe',
+      insName: 'Auto',
+      status: 'Blocked',
+      subNum: 2333443,
+      effDate: '12/02/2017',
+      preimum: 10000
+    }]
+
+    const columns = [{
+      Header: 'User',
+      accessor: 'user' // String-based value accessors!
+    },
+    {
+      Header: 'Insured Name',
+      accessor: 'insName'
+    }, {
+      Header: 'Status',
+      accessor: 'status',
+    },
+    {
+      Header: 'Submission#',
+      accessor: 'subNum',
+    },
+    {
+      Header: 'Effective Date',
+      accessor: 'effDate',
+    },
+    {
+      Header: 'Preimum ',
+      accessor: 'preimum',
+    },
+    {
+      Header: 'Action'
+    }]
+
     return (
       <div className="container">
-        <Row>
+        {/* <Row>
           <Button className="btn-large" onClick={this.props.onNewClick}>
             New Quote
           </Button>
@@ -132,6 +243,32 @@ class Landing extends Component {
           <Button className="btn-large" onClick={this.props.onDuplicateClick}>
             Duplicate & Edit Quote
             </Button>
+        </Row> */}
+        <h4>Prototype Landing Page</h4>
+        <Row>
+          <Row>
+            <Col s={12}>
+              <Input s={12} type="search" label={<Icon left>search</Icon>} />
+            </Col>
+          </Row>
+        </Row>
+        <Row>
+          <ReactTable
+            data={data}
+            columns={columns}
+            showPaginationBottom={false}
+            minRows={1}
+          />
+        </Row>
+        <h4>Prototype RiskRating Page</h4>
+        <Row>
+          <Col s={2} l={1}>
+
+            <FixedSideBar />
+          </Col>
+          <Col s={10} l={12}>
+            <RiskRating />
+          </Col>
         </Row>
       </div>
     );
@@ -360,10 +497,10 @@ class RiskRating extends Component {
 
   render() {
     return (
-      <div className="container">
+      <Row>
+        <h4>Enter Risk and Rating Info</h4>
         <Row>
-          <h3>Enter Risk and Rating Info</h3>
-          <h5>TO-DO FORM</h5>
+          <Basic />
         </Row>
         <Row>
           <Col s={6}>
@@ -374,7 +511,7 @@ class RiskRating extends Component {
             <Refer />
           </Col>
         </Row>
-      </div>
+      </Row>
     );
   }
 }
@@ -411,7 +548,12 @@ class FixedFooter extends Component {
       <footer className="page-footer blue-grey lighten-1">
         <div className="footer-copyright blue-grey lighten-1">
           <div className="container">
-            Argo Group© 2017 Copyright
+            <Row>
+              <Col s={6}> Argo Group© 2017 Copyright
+          </Col>
+              <Col s={6}>Made with Love by Argo Innovation
+</Col>
+            </Row>
           </div>
         </div>
       </footer>
@@ -420,60 +562,77 @@ class FixedFooter extends Component {
 }
 
 //Fake Demo component TO-DO flex it
-class FixedSideNav extends Component{
-  render(){
-    return(
-      <SideNav
-      trigger={<Button>SIDE NAV DEMO</Button>}
-      options={{ closeOnClick: true }}
-      >
-      <SideNavItem userView
-        user={{
-          background: 'img/office.jpg',
-          image: 'img/yuna.jpg',
-          name: 'John Doe',
-          email: 'jdandturk@gmail.com'
-        }}
-      />
-      <SideNavItem href='#!icon' icon='cloud'>First Link With Icon</SideNavItem>
-      <SideNavItem href='#!second'>Second Link</SideNavItem>
-      <SideNavItem divider />
-      <SideNavItem subheader>Subheader</SideNavItem>
-      <SideNavItem waves href='#!third'>Third Link With Waves</SideNavItem>
-    </SideNav>
-     );
-     }
+class FixedSideBar extends Component {
+  render() {
+    //TO-DO: media query to hide fixed nav when using small screen
+    const fixstyle = {
+      padding: '0 0 0 5px',
+      height: '100%',
+      width: '180px',
+      position: 'fixed',
+      left: '0',
+      top: '10vh',
+      bottom: '20px'
+    }
+    return (
+      <div style={fixstyle}>
+        <Collection>
+          <CollectionItem>Action1</CollectionItem>
+          <CollectionItem>Action2</CollectionItem>
+          <CollectionItem>Action3</CollectionItem>
+          <CollectionItem>Action4</CollectionItem>
+          <CollectionItem>Action5</CollectionItem>
+          <CollectionItem>Action6</CollectionItem>
+        </Collection>
+      </div>
+    );
   }
+}
 
 //TO-DO WIRE WITH VALIDATION AND ADD CHANGEABLE LOGO  
 class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      TitleImg: [],
+      EmailErr: "Please type in correct Email",
+      PwdErr: "Please enter your correct password"
+    }
+  }
+
+  //TO-DO default a login image and clear out validation error
+  componentWillMount() {
+
+  }
+
   render() {
     return (
-      <div className="container" id="login">
-        <Row>
-          <Col className="offset-m2 offset-l3" m={8} l={6} s={12}>
-            <Card
-              actions={
-                [<a href='#'>Forgot Password</a>]}
-            >
-            <Row>
-              <div className="card-image">
-                <img src="./argo-group.jpg"/>
-                </div>
-              </Row>
-              <Row>
-                <Input s={12} type="text" label="Email" ><Icon left>email</Icon></Input>
-              </Row>
-              <Row>
-                <Input s={12} type="text" label="Password"><Icon left>vpn_key</Icon></Input>
-              </Row>
-              <Row>
-                <Button className="btn-large cyan" id="login-button" onClick={this.props.handlelogin}>Login</Button>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+      <Router>
+        <div className="container" id="login">
+          <Row>
+            <Col className="offset-m2 offset-l3" m={8} l={6} s={12}>
+              <Card className="z-depth-4"
+                actions={
+                  [<a href="/forget-pwd"><Icon right>restore</Icon>Forgot Password</a>]}
+              >
+                <Row>
+                  <div className="card-image ">
+                    <img src="./argo-group.png" />
+                    {/* <img src="./colony.png"/> */}
+                  </div>
+                </Row>
+                <Row>
+                  <form action="landing">
+                    <Input s={12} type="email" label="Email" required validate><Icon left>email</Icon></Input>
+                    <Input s={12} type="text" label="Password" required validate><Icon left>lock</Icon></Input>
+                    <Button className="btn-large cyan" id="login-button" type="submit">Login</Button>
+                  </form>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </Router>
     );
   }
 }

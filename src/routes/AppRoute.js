@@ -4,3 +4,11 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+
+import App from './App';
+
+export default ()=>(
+  <Router>
+    <Route path="/app" component={App} />
+ </Router>
+);
